@@ -1,19 +1,24 @@
 package main
-import ("fmt"
-//"encoding/json"
-"os"
+import (
+"fmt"
+s "github.com/toxer/goproject/filescanner")
 
 
-)
 func main() {
-	path := "/tmp/data.txt"
-	fi, err := os.Stat(path)
-	if err != nil {
-		return
-	}
-    //converto la stat del file in stringa
-    str:=fmt.Sprintln(fi.Sys())
-	fmt.Println(str)
+	//l := new(s.Log)
+	//fmt.Println(s.InodeFileMap("/tmp"))
+	//name:=s.FileNameByInode("/tmp",10878992);
 
+	l := new(s.Log)	
+	l.Inode = 1
+	l.NextInode=2
+	l.PreviusInode=3
+	l.CurrentName="test"
+	json,_ := (l.ToJson())
+	fmt.Println(json)
+	fmt.Println(s.ToStructure(json))
+
+	
+	
 
 } 
