@@ -4,6 +4,7 @@ import(
 "io/ioutil"
 "syscall"
 "encoding/json"
+"os"
 )
 
 type Log struct{
@@ -55,12 +56,26 @@ func FileNameByInode(dirPath string,inode uint64)(string){
 
 
 //resistuisce la mappa di inode-nomeFile
-func InodeFileMap(dirPath string)(map[uint64]string){
+func InodeFileMapName(dirPath string)(map[uint64]string){
 	inodeFileMap := make(map[uint64]string)
 
 	files, _ := ioutil.ReadDir(dirPath)
 	for _, f := range files {
 		inodeFileMap[(f.Sys().(*syscall.Stat_t).Ino)]=f.Name()
+	}
+
+	
+	return inodeFileMap
+}
+
+
+//resistuisce la mappa di inode-puntatoreAFile
+func InodeFileMapPointer(dirPath string)(map[uint64]string){
+	inodeFileMap := make(map[uint64]*File)
+
+	files, _ := ioutil.ReadDir(dirPath)
+	for _, f := range files {
+		inodeFileMap[(f.Sys().(*syscall.Stat_t).Ino)]=os.Open(f)
 	}
 
 	
