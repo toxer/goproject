@@ -1,29 +1,28 @@
 package main
 
 import(
-"fmt"
 "time"
 "strconv"
 "os"
-
+"fmt"
 )
 
-var maxSizeBeforeRotation int = 2000
+var maxSizeBeforeRotation int = 20000
 var maxFileNumber int = 5
 var logPath string ="/tmp/log"
 var baseName string="server.log"
-var millisecondBetweenWrite time.Duration = 100
+var millisecondBetweenWrite time.Duration = 10
 
 func main() {
 	//data
 	var lineNumber int  = 0
 	//pulisce la directory
 	os.RemoveAll(logPath)
-	fmt.Print("Rimosso "+logPath)
+	//fmt.Print("Rimosso "+logPath)
 	
 	os.Mkdir(logPath,0777)
-	fmt.Println("Creato "+logPath)
-		time.Sleep(10 * time.Millisecond)
+//	fmt.Println("Creato "+logPath)
+	//time.Sleep(10 * time.Millisecond)
 
 	
 
@@ -44,12 +43,13 @@ func main() {
 			}
 
 			os.Rename(logPath+"/"+baseName+oldSuffix,logPath+"/"+baseName+newSuffix)
-			fmt.Println("Move "+logPath+"/"+baseName+oldSuffix+" to "+logPath+"/"+baseName+newSuffix)
+			//fmt.Println("Move "+logPath+"/"+baseName+oldSuffix+" to "+logPath+"/"+baseName+newSuffix)
 		}
 
 		//scrivo nel file di testa
 		
 		f, _ := os.Create(logPath+"/"+baseName)
+		start:= time.Now()
 		for i := 0; i < maxSizeBeforeRotation;{
 			lineNumber++;
 			t:= time.Now()
@@ -61,6 +61,9 @@ func main() {
 
 		}
 		f.Write([]byte("--------File rotated-----------"));
+ 		elapsed := time.Since(start)
+ 		
+		fmt.Println("File ruotati dopo "+  fmt.Sprint(elapsed))
 		f.Sync()
 		f.Close()
 		
