@@ -11,7 +11,7 @@ var maxSizeBeforeRotation int = 20000
 var maxFileNumber int = 5
 var logPath string ="/tmp/log"
 var baseName string="server.log"
-var millisecondBetweenWrite time.Duration = 10
+var millisecondBetweenWrite time.Duration = 0
 
 func main() {
 	//data

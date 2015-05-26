@@ -7,13 +7,33 @@ import(
 "os"
 )
 
+
 type Log struct{
 	Inode,NextInode,PreviusInode uint64
+	index int
 	CurrentName string	
 }
 
 
 
+
+
+// metodi per ordinare i file di log in base al nome
+
+func (s Log) Len() int {
+    return s.index
+}
+
+func (s Log) Swap(i, j int) {
+    s[i], s[j] = s[j], s[i]
+}
+func (s Log) Less(i, j int) bool {
+	//trovo il numero finale del log
+	 finalI = 0;
+	 finalJ = 0;
+	 
+    return s[i].index < s[j].index
+}
 
 func (l Log )ToJson()(string,error){
 	b,err := json.Marshal(l)
@@ -70,7 +90,7 @@ func InodeFileMapName(dirPath string)(map[uint64]string){
 
 
 //resistuisce la mappa di inode-puntatoreAFile
-func InodeFileMapPointer(dirPath string)(map[uint64]string){
+func InodeFileMapPointer(dirPath string)(map[uint64]*os.File){
 	inodeFileMap := make(map[uint64]*File)
 
 	files, _ := ioutil.ReadDir(dirPath)
