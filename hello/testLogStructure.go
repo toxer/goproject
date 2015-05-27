@@ -1,12 +1,11 @@
 package main 
 import(
-ls "github.com/toxer/goproject/logstructure"
-
+ls "github.com/toxer/goproject/logsutils"
 "fmt"
 )
 
 
 func main() {
-	l,_ := ls.CreateLogList("/tmp/log","server.log_","")
-	fmt.Println(l)
+    l,_,_ := ls.CreateLogList("/tmp/log","server.log_","")
+    fmt.Println(l)
 }

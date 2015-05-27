@@ -1,9 +1,11 @@
 package logstructure
-import("os")
+import("os"
+"fmt")
+
 
 
 type Log struct{
-	Inode,NextInode,PreviusInode uint64
+	Inode,NextInode,PreviousInode uint64
 	Index int
 	CurrentName string	
 	FilePointer os.FileInfo
@@ -12,18 +14,18 @@ type Log struct{
 type Logs []Log
 
 func (slice Logs) Len() int {
-    return len(slice)
+	return len(slice)
 }
 
 func (slice Logs) Less(i, j int) bool {
-    return slice[i].Index < slice[j].Index
+	return slice[i].Index < slice[j].Index
 }
 
 func (slice Logs) Swap(i, j int) {
-    slice[i], slice[j] = slice[j], slice[i]
+	slice[i], slice[j] = slice[j], slice[i]
 }
 
 func (this Log) String() string {
-	return this.CurrentName
+	return fmt.Sprint(this.PreviousInode)+"-->"+this.CurrentName+"="+fmt.Sprint(this.Inode)+"-->"+fmt.Sprint(this.NextInode)+"\n"
 
- }
+}
