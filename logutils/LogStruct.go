@@ -1,4 +1,4 @@
-package logstructure
+package logutils
 import("os"
 "fmt")
 
